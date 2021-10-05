@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>All categories</title>
+</head>
+<body>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+    <link href="../css/style.css" rel="stylesheet" type="text/css">
+    <style><%@include file="/css/style.css"%></style>
+    <title>Все студенты</title>
+</head>
+<body>
+
+
+
+<br>
+<br>
+<br>
+<br>
+<div class="it">
+    <h3>Список всех студентов</h3>
+    ${message}
+
+    <br>
+    <br>
+    <table class="table">
+        <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Имя</th>
+
+            <th scope="col">Фамилия</th>
+            <th scope="col">Фото</th>
+        </tr>
+        </thead>
+        <tbody>
+        <c:forEach var="student" items="${studentList}">
+            <tr>
+                <th scope="row">1</th>
+                <td>${student.name}</td>
+                <td>${student.surname}</td>
+
+                <td><img src="${pageContext.request.contextPath}/avatar?avatar=${student.avatar}" style="max-height: 200px; max-width: 200px;" /></td>
+
+                <td>
+                    <a href="${pageContext.request.contextPath}/editStudent/${student.id}">
+                        <button type="button" class="btn btn-primary">Редактировать</button>
+                    </a>
+                </td>
+                <td>
+                    <a href="${pageContext.request.contextPath}/deleteStudent/${student.id}">
+                        <button type="button" class="btn btn-primary">Удалить</button>
+                    </a>
+                </td>
+            </tr>
+        </c:forEach>
+        </tbody>
+    </table>
+    <a href="${pageContext.request.contextPath}/addStudent"><button type="button" class="btn btn-primary">Добавить студента</button></a>
+</div>
+</body>
+</html>
+</body>
+</html>
