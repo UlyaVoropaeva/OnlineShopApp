@@ -15,6 +15,7 @@ public interface ProductRepository extends PagingAndSortingRepository<Product, L
     @Query("SELECT p FROM Product  as p WHERE p.id = :id")
     Product getById(@Param("id") long id);
 
+
     @Modifying
     @Query("UPDATE Product as p SET p.name='$name',p.description='$description' where p.id = :id")
     @Transactional

@@ -21,5 +21,4 @@ public interface UserRepository extends PagingAndSortingRepository<User, Long> {
     @Query("UPDATE User as u SET u.authority ='$authority'  where u.id = :id" )
     @Transactional
     void update(long id);
-
 }

@@ -1,6 +1,7 @@
 package ru.gb.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -41,6 +42,7 @@ public class ProductController {
         return "edit";
     }
 
+    @PreAuthorize("hasAuthority({'ROLE_ADMIN', 'ROLE_MANAGER'})")
    @PostMapping("/update")
     public String update(@RequestParam Long id,
                          @RequestParam(value = "/edit", required = false) boolean edit) {
@@ -48,6 +50,7 @@ public class ProductController {
         return "redirect:/products/upd";
     }
 
+    @PreAuthorize("hasAuthority({'ROLE_ADMIN', 'ROLE_MANAGER'})")
     @PostMapping
     public String save(@RequestParam Product product, BindingResult result) {
         if (result.hasErrors()) {
@@ -68,7 +71,7 @@ public class ProductController {
         return productService.getById(id);
     }
 
-    @GetMapping("/delete/{id}")
+    @DeleteMapping("/delete/{id}")
     public String delete(@PathVariable Long id) {
         productService.deleteById(id);
         return "redirect:/";

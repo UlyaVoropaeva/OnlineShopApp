@@ -8,5 +8,4 @@ import java.util.List;
 public interface CategoryRepository extends PagingAndSortingRepository<Category, Long> {
     List<Category> findAll();
     Category findById(long id);
-
 }

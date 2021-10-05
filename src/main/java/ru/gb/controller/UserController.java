@@ -1,6 +1,7 @@
 package ru.gb.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -33,7 +34,8 @@ public class UserController {
     }
 
 
-    @PostMapping("/userList")
+    @PreAuthorize("hasAuthority('ROLE_SUPERADMIN')")
+    @DeleteMapping("/userList")
     public String  deleteUser(@RequestParam(required = true, defaultValue = "" ) long userId,
                               @RequestParam(required = true, defaultValue = "" ) String action,
                               Model model) {
@@ -43,6 +45,7 @@ public class UserController {
         return "redirect:/userList";
     }
 
+
     @GetMapping("/edit/{id}")
     public String updateUser (@PathVariable long id, Model model) {
         User user = repository.getById(id);
@@ -50,6 +53,7 @@ public class UserController {
         return "updateUser";
     }
 
+    @PreAuthorize("hasAuthority('ROLE_SUPERADMIN')")
     @PostMapping("/updateUser")
     public String update(@RequestParam(required = true, defaultValue = "" ) long userId,
                          @RequestParam(required = true, defaultValue = "" ) String action,
@@ -67,6 +71,7 @@ public class UserController {
         return "registration";
     }
 
+    @PreAuthorize("hasAuthority('ROLE_SUPERADMIN')")
     @PostMapping("/registration")
     public String addUser(@ModelAttribute("userForm") @PathVariable User user, BindingResult bindingResult, Model model) {
 

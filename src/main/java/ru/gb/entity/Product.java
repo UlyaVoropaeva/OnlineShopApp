@@ -25,4 +25,5 @@ public class Product {
     String description;
     @ManyToMany
     List<Category> categories;
+
 }
