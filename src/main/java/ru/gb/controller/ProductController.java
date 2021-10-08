@@ -1,6 +1,8 @@
 package ru.gb.controller;
 
+import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -10,11 +12,13 @@ import ru.gb.repository.ProductRepository;
 import java.util.ArrayList;
 import java.util.List;
 
-@RestController
+@Controller
 @RequestMapping(value = "/products")
 public class ProductController {
 
     private final ProductRepository productService;
+
+
 
     @Autowired
     public ProductController(ProductRepository productService) {
@@ -22,56 +26,55 @@ public class ProductController {
     }
 
 
-    @GetMapping()
-    public String findAll(Model model) {
+    @GetMapping("/products")
+    public String findAll(@NotNull Model model) {
 
-        List<Product> products = new ArrayList<>();
-        productService.findAll().forEach(products::add);
-
-        model.addAttribute("products", products);
-        return "templates/products/product-all";
+        List<Product> product = new ArrayList<>();
+        productService.findAll().forEach(product::add);
+        return "products";
 
     }
 
-
-    @GetMapping("/edit/{id}")
-    public String edit(@PathVariable long id, Model model) {
+    @GetMapping("/products-add/{id}")
+    public String updateProduct (@PathVariable long id, Model model) {
         Product product = productService.getById(id);
-        model.addAttribute("products", product);
-        return "edit";
+        model.addAttribute("product", product);
+
+        return "products-add";
     }
 
-   @PostMapping("/update")
+   @PostMapping("/products-add")
     public String update(@RequestParam Long id,
-                         @RequestParam(value = "/edit", required = false) boolean edit) {
+                         @RequestParam(value = "/products", required = false) boolean edit) {
         productService.update(id);
-        return "redirect:/products/upd";
+        return "redirect:/products";
     }
 
     @PostMapping
     public String save(@RequestParam Product product, BindingResult result) {
         if (result.hasErrors()) {
-            return "product-add";
+            return "products-add";
         }
+
         productService.save(product);
-        return "redirect:/products/mvc";
+        return "redirect:/products";
     }
 
-
-    @GetMapping("/form")
-    public String saveForm(Product product) {
-        return "product-add";
+    @GetMapping("/products-add")
+    public String saveForm(Model model) {
+        model.addAttribute("products", new Product());
+        return "products-add";
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("products/{id}")
     public Product findById(@PathVariable Long id) {
         return productService.getById(id);
     }
 
-    @GetMapping("/delete/{id}")
+    @DeleteMapping("/delete/{id}")
     public String delete(@PathVariable Long id) {
         productService.deleteById(id);
-        return "redirect:/";
+        return "redirect:/products";
     }
 
 }

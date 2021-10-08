@@ -7,11 +7,12 @@ import org.springframework.data.repository.query.Param;
 import ru.gb.entity.Product;
 
 import javax.transaction.Transactional;
-import java.util.List;
 
 public interface ProductRepository extends PagingAndSortingRepository<Product, Long> {
-    List<Product> findAll();
-    void deleteById(Long id);
+
+    @Override
+    Iterable<Product> findAll();
+
     @Query("SELECT p FROM Product  as p WHERE p.id = :id")
     Product getById(@Param("id") long id);
 

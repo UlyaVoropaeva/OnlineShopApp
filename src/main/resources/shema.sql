@@ -2,7 +2,9 @@ create table if not exists PRODUCTS
 (
     ID BIGINT auto_increment primary key,
     NAME VARCHAR (255),
-    description VARCHAR (255)
+    description VARCHAR (255),
+    price decimal
+
 );
 
 create table if not exists USERS
@@ -30,5 +32,14 @@ create table if not exists products_categories
         (productID) references PRODUCTS (ID),
     constraint TABLE_categorys_ID_FK foreign key
         (categoryID) references categories (ID )
+
+);
+create table if not exists carts
+(
+    ID BIGINT auto_increment primary key,
+    countProduct BIGINT,
+    productID BIGINT,
+    constraint TABLE_PRODUCTS_ID_FK foreign key
+        (productID) references PRODUCTS (ID)
 
 );

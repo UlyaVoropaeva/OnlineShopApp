@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Controller
-@RequestMapping("/categories")
+@RequestMapping("/category")
 public class CategoryController {
 
     private final CategoryRepository repository;
@@ -19,30 +19,30 @@ public class CategoryController {
         this.repository = repository;
     }
 
-    @GetMapping
+    @GetMapping("/category-all")
     public String findAll(Model model) {
         List<Category> categories = new ArrayList<>();
         repository.findAll().forEach(categories::add);
 
         model.addAttribute("categories", categories);
-        return "category/category-all";
+        return "/category-all";
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/category-current/{id}")
     public String findById(@PathVariable() long id, Model model) {
         model.addAttribute("category", repository.findById(id));
-        return "category/category-current";
+        return "/category-current";
     }
 
-    @GetMapping("/add")
+    @GetMapping("/category-all/add")
     public String addForm() {
         return "category/category-add";
     }
 
     @PostMapping
-    public String add(@RequestBody Category category) {
+    public String add(@ModelAttribute("addCategories")
+                      @RequestBody Category category) {
         repository.save(category);
-        return "category/category-all";
+        return "/category-all";
     }
-
 }

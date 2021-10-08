@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="utf-8">
+  <title>User List</title>
+</head>
+
+<body>
+<div>
+  <table>
+    <thead>
+    <th>ID</th>
+    <th>UserName</th>
+    <th>Roles</th>
+    </thead>
+    <th:forEach items="${users}" var="user">
+        <tr>
+          <td>${user.id}</td>
+          <td>${user.login}</td>
+          <td>${user.password}</td>
+          <td>${user.authority}</td>
+          <td>
+
+            <th:url value="/users/user-update" var="updateUser>
+              <th:param name="id" value="${user.id}"/>
+            </th:url>
+            <th:url value="/user/delete" var="userDeleteUrl">
+              <th:param name="id" value="${user.id}"/>
+            </th:url>
+            <a class="btn btn-success" href="${userController.}"><i class="fas fa-edit"></i></a>
+            <a class="btn btn-danger" href="${userController.delete}"><i class="far fa-trash-alt"></i></a>
+          </td>
+
+        </tr>
+      </th:forEach>
+  </table>
+</div>
+</body>
+</html>

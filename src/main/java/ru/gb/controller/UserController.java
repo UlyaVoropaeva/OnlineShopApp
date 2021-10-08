@@ -8,8 +8,11 @@ import org.springframework.web.bind.annotation.*;
 import ru.gb.entity.User;
 import ru.gb.repository.UserRepository;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Controller
-@RequestMapping(value = "/user")
+@RequestMapping(value = "/users")
 public class UserController {
 
     private final UserRepository repository;
@@ -19,63 +22,61 @@ public class UserController {
         this.repository = repository;
     }
 
+    @GetMapping("user/{id}")
+    public User getById(@PathVariable Long id) {
+        return repository.getById(id);
+    }
 
-    @GetMapping("/userList")
+
+    @GetMapping("/user")
     public String userList(Model model) {
-        model.addAttribute("allUsers", repository.findAll());
-        return "userListAdmin";
+        List<User> users = new ArrayList<>();
+        repository.findAll().forEach(users::add);
+        model.addAttribute("users", repository.findAll());
+        return "user";
     }
 
-    @GetMapping("/superAdmin")
-    public String userListAll (Model model) {
-        model.addAttribute("findAllUsers", repository.findAll());
-        return "superAdmin";
-    }
-
-
-    @PostMapping("/userList")
-    public String  deleteUser(@RequestParam(required = true, defaultValue = "" ) long userId,
+    @DeleteMapping ("/user")
+    public String  delete(@RequestParam(required = true, defaultValue = "" ) long userId,
                               @RequestParam(required = true, defaultValue = "" ) String action,
                               Model model) {
         if (action.equals("delete")){
             repository.deleteById(userId);
         }
-        return "redirect:/userList";
+        return "redirect:/user";
     }
 
-    @GetMapping("/edit/{id}")
+    @GetMapping("/user-update/{id}")
     public String updateUser (@PathVariable long id, Model model) {
         User user = repository.getById(id);
         model.addAttribute("updateUser", user);
-        return "updateUser";
+        return "user";
     }
 
-    @PostMapping("/updateUser")
+    @PostMapping("/user-update")
     public String update(@RequestParam(required = true, defaultValue = "" ) long userId,
                          @RequestParam(required = true, defaultValue = "" ) String action,
                          Model model) {
         if (action.equals("updateUser")){
             repository.update(userId);
         }
-        return "redirect:/updateUser";
+        return "redirect:/user-update";
     }
 
-    @GetMapping("/registration")
-    public String registration(Model model) {
+    @GetMapping("/user-add")
+    public String edit (Model model) {
         model.addAttribute("userForm", new User());
-
-        return "registration";
+        return "user-add";
     }
 
-    @PostMapping("/registration")
+    @PostMapping("/user-add")
     public String addUser(@ModelAttribute("userForm") @PathVariable User user, BindingResult bindingResult, Model model) {
 
         if (bindingResult.hasErrors()) {
-            repository.save(user);
-            return "registration";
+
+            return "editUser";
         }
-
-
+        repository.save(user);
         return "redirect:/";
     }
 }

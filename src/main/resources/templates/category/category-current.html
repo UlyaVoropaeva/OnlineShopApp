@@ -6,5 +6,12 @@
 </head>
 <body>
 
+<select class="form-select form-select-sm" aria-label=".form-select-sm example">
+    <option selected>Выберите котегорию</option>
+    <option th:each="category : ${categoryList}" value="${category.id}"
+            th:text="${product.category}"></option>
+</select>
+
+</form>
 </body>
 </html>

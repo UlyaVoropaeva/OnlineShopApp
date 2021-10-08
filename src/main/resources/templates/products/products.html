@@ -1,47 +1,39 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="utf-8">
-    <title>Product</title>
-</head>
-
+    <meta charset="UTF-8">
+    <title>Add cart</title>
 <body>
-<div>
+<div class="container">
+    <h2>OnlineShopApp</h2>
+    <br>
     <table>
-        <thead>
         <tr>
-            <th scope="col">Id</th>
-            <th scope="col">Name</th>
-            <th scope="col">Description</th>
+            <th>Артикул</th>
+            <th>Наименование</th>
+            <th>Цена</th>
+            <th>Описание</th>
+            <th>Количество</th>
+
         </tr>
-        </thead>
-        <tbody>
-        <th:forEach var="product" items="${requestScope.products}">
-            <tr>
-                <th scope="row">
-                    <th:out value="${product.id}"/>
-                </th>
-                <td>
-                    <th:out value="${product.name}"/>
-                </td>
-                <td>
-                    <th:out value="${product.description}"/>
-                </td>
-                <td>
-                    <th:url value="/product/edit" var="productEditUrl">
-                        <th:param name="id" value="${product.id}"/>
-                    </th:url>
-                    <th:url value="/product/delete" var="productDeleteUrl">
-                        <th:param name="id" value="${product.id}"/>
-                    </th:url>
-                    <a class="btn btn-success" href="${productEditUrl}"><i class="fas fa-edit"></i></a>
-                    <a class="btn btn-danger" href="${productDeleteUrl}"><i class="far fa-trash-alt"></i></a>
+        <tr th:each="product: ${products}">
+                <td th:text="${product.id}">
+                <td th:text="${product.name}">
+                <td th:text="${product.price}">
+                <td th:text="${product.description}">
+
+            <td>
+            <form method="post" name="cartForm" action="/templates/cart/cartToAdd.html">
+                <input name="product.id"/>
+                <input name="cart.countProduct"/>
+                <input type="submit", name="Добавить в корзину"/>
+            </form>
+
                 </td>
             </tr>
-        </th:forEach>
-        </tbody>
+        </th:each>
     </table>
-    </table>
+
 </div>
 </body>
 </html>

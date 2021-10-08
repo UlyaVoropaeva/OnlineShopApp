@@ -7,6 +7,7 @@ import lombok.Setter;
 import lombok.experimental.FieldDefaults;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 import java.util.List;
 
 @Entity
@@ -17,12 +18,14 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 
+
 public class Product {
     @Id
     @GeneratedValue
     long id;
     String name;
     String description;
+    BigDecimal price;
     @ManyToMany
     List<Category> categories;
 }

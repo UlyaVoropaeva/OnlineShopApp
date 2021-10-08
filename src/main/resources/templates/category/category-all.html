@@ -5,6 +5,22 @@
     <title>All categories</title>
 </head>
 <body>
+<table>
+    <tr>
+        <th>Артикул</th>
+        <th>Наименование</th>
 
+    </tr>
+    <tr th:each="category: ${categories}">
+        <td th:text="${category.id}">
+        <td th:text="${category.name}">
+
+        <td>
+            <form method="post"  action="/templates/category/category-add.html">
+                <input type="submit", name="Добавить "/>
+            </form>
+
+        </td>
+    </tr>
 </body>
 </html>

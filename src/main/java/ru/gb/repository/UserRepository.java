@@ -8,7 +8,6 @@ import ru.gb.entity.User;
 import javax.transaction.Transactional;
 import java.util.List;
 
-
 public interface UserRepository extends PagingAndSortingRepository<User, Long> {
 
     List<User> findAll();

@@ -9,7 +9,8 @@
 <body>
 <h1>Edit User</h1>
 
-<form action="${userSubmitUrl}" method="post">
+
+<form method="POST" modelAttribute="userForm">
     <input type="hidden" id="id" name="id" value="${user.id}">
     <div class="form-group">
         <label>Login</label>
